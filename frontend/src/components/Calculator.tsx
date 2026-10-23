@@ -1,31 +1,13 @@
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import { ApiError, calculate } from '../api/calculatorClient'
-import { calculatorReducer, initialState, type Action, type Digit } from '../state/calculatorReducer'
+import { calculatorReducer, initialState } from '../state/calculatorReducer'
 import styles from './Calculator.module.css'
 import { Display } from './Display'
-import { Keypad } from './Keypad'
-
-const KEY_ACTIONS = new Map<string, Action>([
-  ['+', { type: 'operator', operator: 'add' }],
-  ['-', { type: 'operator', operator: 'subtract' }],
-  ['*', { type: 'operator', operator: 'multiply' }],
-  ['/', { type: 'operator', operator: 'divide' }],
-  ['^', { type: 'operator', operator: 'power' }],
-  ['%', { type: 'operator', operator: 'percent' }],
-  ['.', { type: 'decimal' }],
-  ['Enter', { type: 'equals' }],
-  ['=', { type: 'equals' }],
-  ['Backspace', { type: 'backspace' }],
-  ['Escape', { type: 'clear' }],
-])
-
-function keyToAction(key: string): Action | undefined {
-  if (/^[0-9]$/.test(key)) return { type: 'digit', digit: key as Digit }
-  return KEY_ACTIONS.get(key)
-}
+import { findKey, Keypad } from './Keypad'
 
 export function Calculator() {
   const [state, dispatch] = useReducer(calculatorReducer, initialState)
+  const [pressed, setPressed] = useState<string | null>(null)
   const request = state.status === 'loading' ? state.request : null
 
   // The reducer decides what to compute; this effect only performs the request.
@@ -50,19 +32,28 @@ export function Calculator() {
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (e.ctrlKey || e.metaKey || e.altKey) return
-      const action = keyToAction(e.key)
-      if (!action) return
+      const key = findKey(e.key)
+      if (!key) return
       e.preventDefault() // stops Enter from also "clicking" a focused button
-      dispatch(action)
+      dispatch(key.action)
+      setPressed(key.name)
     }
+    // Releasing any key (or leaving the window) ends the pressed animation.
+    const release = () => setPressed(null)
     window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
+    window.addEventListener('keyup', release)
+    window.addEventListener('blur', release)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('keyup', release)
+      window.removeEventListener('blur', release)
+    }
   }, [])
 
   return (
     <section className={styles.calculator} aria-label="Calculator">
       <Display state={state} />
-      <Keypad onAction={dispatch} disabled={state.status === 'loading'} />
+      <Keypad onAction={dispatch} disabled={state.status === 'loading'} pressed={pressed} />
     </section>
   )
 }

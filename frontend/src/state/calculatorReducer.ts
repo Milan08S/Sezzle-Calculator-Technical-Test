@@ -102,13 +102,11 @@ function editInput(input: string, action: Action): string {
   }
 }
 
+// Deleting the last digit leaves 0 (like a pocket calculator), so the operand never shows a stale value.
 function backspace(state: State): State {
   if (state.status !== 'inputtingFirst' && state.status !== 'inputtingSecond') return state
   const input = state.input.slice(0, -1)
-  if (input !== '' && input !== '-') return { ...state, input }
-  return state.status === 'inputtingFirst'
-    ? initialState
-    : { status: 'operatorPending', first: state.first, operator: state.operator }
+  return { ...state, input: input === '' || input === '-' ? '0' : input }
 }
 
 function pressOperator(state: State, operator: BinaryOperation): State {

@@ -182,3 +182,8 @@ Sections:
 - **Phase 5 (Docker/Makefile):** `backend/Dockerfile` (static Go binary on distroless nonroot, `-healthcheck`), `frontend/Dockerfile` (npm ci/build → nginx 1.27) with `nginx.conf` (SPA fallback, `/api` + `/healthz` proxy, immutable assets, no-cache index, gzip), `compose.yaml` (backend healthcheck gates frontend, app on :8080), `.dockerignore`s, Makefile with all targets; Docker build not verified locally (no Docker in WSL).
 - **Note:** Go version raised to 1.27 (latest available; `go.mod`, backend Docker image and docs), superseding the "Go 1.23+" in the original spec.
 - **Phase 6 (README + final review):** README with run/Docker instructions, full API reference + curl per error class, coverage table, design decisions with rejected alternatives, assumptions, future work; Docker e2e verified (found and fixed nginx returning its own HTML 413 before the backend JSON one); calculator favicon; all Makefile/lint/test targets green.
+
+
+## Notes:
+
+* After the AI design the plan, the only prompts that were used was to confirm the test pass and giving the AI permission to follow to the next phase.- **Fix (UI polish):** calculator fills width on phones / 480px on desktop (#root was shrink-wrapping it), rows scale with viewport height, press animation for mouse and keyboard (reduced-motion aware), no flicker while loading (keys dim only after 300ms, display keeps the operand), Backspace stops at 0 instead of revealing the first operand.

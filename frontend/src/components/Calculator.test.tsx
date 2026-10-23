@@ -149,12 +149,37 @@ describe('Calculator', () => {
     expect(calculateMock).toHaveBeenCalledWith({ operation: 'sqrt', operands: [16] })
   })
 
+  it('shows 0, not the first operand, after deleting the second operand', async () => {
+    const { display, press } = setup()
+
+    await press('8', 'Add', '5', 'Backspace')
+
+    expect(display).toHaveTextContent('8 +')
+    expect(within(display).getByText('0')).toBeInTheDocument()
+  })
+
   it('shows the pending operator expression', async () => {
     const { display, press } = setup()
 
     await press('7', 'Percent of')
 
     expect(display).toHaveTextContent('7 %')
+  })
+
+  it('shows a keypad key as pressed while its keyboard key is held', async () => {
+    const { user } = setup()
+    const five = screen.getByRole('button', { name: '5' })
+    const equals = screen.getByRole('button', { name: 'Equals' })
+
+    await user.keyboard('{5>}') // hold
+    expect(five).toHaveAttribute('data-pressed')
+    expect(equals).not.toHaveAttribute('data-pressed')
+
+    await user.keyboard('{/5}') // release
+    expect(five).not.toHaveAttribute('data-pressed')
+
+    await user.keyboard('{Enter>}')
+    expect(equals).toHaveAttribute('data-pressed')
   })
 
   it('gives every key an accessible name', () => {
