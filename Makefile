@@ -1,4 +1,4 @@
-.PHONY: backend-run backend-test backend-coverage frontend-install frontend-dev frontend-test frontend-coverage test lint docker-build docker-run
+.PHONY: backend-run backend-test backend-coverage frontend-install frontend-dev frontend-test frontend-coverage test lint docker-build docker-run start stop
 
 backend-run:
 	cd backend && go run ./cmd/server
@@ -35,3 +35,11 @@ docker-build:
 
 docker-run:
 	docker compose up --build
+
+# Run the finished app in the background; --wait returns once the containers are healthy.
+start:
+	docker compose up --build --detach --wait
+	@echo "Calculator running at http://localhost:8080 (stop with: make stop)"
+
+stop:
+	docker compose down

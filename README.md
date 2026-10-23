@@ -66,10 +66,13 @@ The frontend reads `VITE_API_BASE_URL` at build time (default: same origin).
 ### With Docker
 
 ```bash
-make docker-run         # docker compose up --build
+make start              # build and run in the background, wait until healthy
+make stop               # stop and remove the containers
+
+make docker-run         # same, but attached to the terminal with live logs (Ctrl+C stops)
 ```
 
-Open http://localhost:8080. nginx serves the UI and proxies `/api/` and `/healthz` to the backend, which has no published port. The frontend container starts only after the backend healthcheck passes. `make docker-build` builds the images without starting them; `docker compose down` stops everything.
+Open http://localhost:8080. nginx serves the UI and proxies `/api/` and `/healthz` to the backend, which has no published port. The frontend container starts only after the backend healthcheck passes. `make docker-build` builds the images without starting them.
 
 ## API reference
 
@@ -209,7 +212,7 @@ Current coverage:
 | `backend/internal/httpapi` | 97.7% |
 | `backend/cmd/server` | 75.9% (`main()` itself is not unit-tested) |
 | **Backend total** | **91.1%** |
-| **Frontend total** | **96.8%** (92 tests) |
+| **Frontend total** | **96.9%** (94 tests) |
 
 What the tests cover:
 
@@ -248,6 +251,8 @@ CI (`.github/workflows/ci.yml`) runs all of the above on every push and pull req
 - **Square root** applies to the current value (first operand or last result), not to a half-typed second operand.
 - **Chaining:** pressing an operator after `a ∘ b` computes it first and uses the result as the next first operand, like a pocket calculator. There is no operator precedence.
 - **Error messages:** the UI shows friendly text for known codes and falls back to the backend `message` for the rest.
+- **Backspace** stops at `0`: deleting the last digit shows `0`, never the previous operand (`8 + 5 ⌫` shows `8 +` / `0`, and `=` then gives `8`).
+- **Loading feedback:** while a request runs, the display keeps the operand being computed and input is disabled; the keys only dim if the request takes longer than 300 ms, so fast responses don't make the keypad blink.
 
 ## Future work
 
