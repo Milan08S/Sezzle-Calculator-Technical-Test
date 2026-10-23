@@ -1,0 +1,48 @@
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.key {
+  min-height: 56px;
+  border: none;
+  border-radius: 12px;
+  background: var(--key);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.key:hover:not(:disabled) {
+  background: var(--key-hover);
+}
+
+.key:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.function {
+  background: var(--function);
+}
+
+.operator,
+.equals {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.operator:hover:not(:disabled),
+.equals:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.equals {
+  grid-row: span 2;
+}
+
+.wide {
+  grid-column: span 2;
+}
