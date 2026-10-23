@@ -66,10 +66,13 @@ The frontend reads `VITE_API_BASE_URL` at build time (default: same origin).
 ### With Docker
 
 ```bash
-make docker-run         # docker compose up --build
+make start              # build and run in the background, wait until healthy
+make stop               # stop and remove the containers
+
+make docker-run         # same, but attached to the terminal with live logs (Ctrl+C stops)
 ```
 
-Open http://localhost:8080. nginx serves the UI and proxies `/api/` and `/healthz` to the backend, which has no published port. The frontend container starts only after the backend healthcheck passes. `make docker-build` builds the images without starting them; `docker compose down` stops everything.
+Open http://localhost:8080. nginx serves the UI and proxies `/api/` and `/healthz` to the backend, which has no published port. The frontend container starts only after the backend healthcheck passes. `make docker-build` builds the images without starting them.
 
 ## API reference
 
