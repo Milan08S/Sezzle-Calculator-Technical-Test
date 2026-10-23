@@ -1,0 +1,49 @@
+:root {
+  --bg: #eef1f5;
+  --surface: #ffffff;
+  --text: #1c2430;
+  --muted: #5b6676;
+  --key: #f3f5f8;
+  --key-hover: #e4e8ee;
+  --function: #dde3ec;
+  --accent: #3b5bdb;
+  --accent-hover: #3049b8;
+  --accent-text: #ffffff;
+  --danger: #c92a2a;
+  --focus: #f08c00;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* #root is body's flex item; full width on phones, capped on desktop so the keypad stays usable. */
+#root {
+  width: min(100%, 480px);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

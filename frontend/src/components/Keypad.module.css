@@ -1,0 +1,80 @@
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  /* Rows follow the viewport height so the calculator grows on big screens yet always fits. */
+  grid-auto-rows: clamp(56px, 9dvh, 84px);
+  gap: clamp(8px, 1.2dvh, 12px);
+}
+
+.key {
+  border: none;
+  border-radius: 12px;
+  background: var(--key);
+  color: var(--text);
+  font: inherit;
+  font-size: clamp(1.25rem, 3dvh, 1.6rem);
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgb(0 0 0 / 0.12);
+  transition:
+    transform 80ms ease-out,
+    box-shadow 80ms ease-out,
+    filter 80ms ease-out;
+}
+
+.key:hover:not(:disabled) {
+  background: var(--key-hover);
+}
+
+/* Same "pushed in" look for mouse/touch (:active) and the physical keyboard (data-pressed). */
+.key:active:not(:disabled),
+.key[data-pressed] {
+  transform: translateY(2px) scale(0.96);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.12);
+  filter: brightness(0.9);
+}
+
+/* Dim only if loading lasts > 300ms, so fast responses don't make the keypad blink. */
+.key:disabled {
+  opacity: 0.5;
+  cursor: progress;
+  transition:
+    transform 80ms ease-out,
+    box-shadow 80ms ease-out,
+    filter 80ms ease-out,
+    opacity 150ms ease-in 300ms;
+}
+
+.function {
+  background: var(--function);
+}
+
+.operator,
+.equals {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.operator:hover:not(:disabled),
+.equals:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.equals {
+  grid-row: span 2;
+}
+
+.wide {
+  grid-column: span 2;
+}
+
+/* Keep the colour feedback, drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  .key {
+    transition: none;
+  }
+
+  .key:active:not(:disabled),
+  .key[data-pressed] {
+    transform: none;
+  }
+}
