@@ -176,3 +176,4 @@ Sections:
 
 - **Phase 0 (plan):** Approved directory tree and API contract; chose two Docker images + compose and a CI workflow grown per phase.
 - **Phase 1 (backend domain):** `internal/calculator` (Operation, Registry with Execute/Operations, 7 operations, sentinel errors) with table-driven tests at 100% coverage; CI backend job (gofmt, vet, `go test -race`).
+- **Phase 2 (backend transport):** `internal/httpapi` (consumer-side `Calculator` interface, pointer DTO validation, single `writeError` with errors.Is mapping table, Recover/Logging/CORS middleware) and `cmd/server` (env config, STATIC_DIR SPA fallback, timeouts, graceful shutdown, `-healthcheck`); handler/middleware/integration tests, total coverage 91%.
