@@ -1,0 +1,9 @@
+# Go
+backend/coverage.out
+backend/coverage.html
+backend/server
+
+# Node
+node_modules/
+frontend/dist/
+frontend/coverage/
