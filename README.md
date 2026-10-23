@@ -212,7 +212,7 @@ Current coverage:
 | `backend/internal/httpapi` | 97.7% |
 | `backend/cmd/server` | 75.9% (`main()` itself is not unit-tested) |
 | **Backend total** | **91.1%** |
-| **Frontend total** | **96.8%** (92 tests) |
+| **Frontend total** | **96.9%** (94 tests) |
 
 What the tests cover:
 
