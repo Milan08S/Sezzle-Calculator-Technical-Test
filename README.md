@@ -251,6 +251,8 @@ CI (`.github/workflows/ci.yml`) runs all of the above on every push and pull req
 - **Square root** applies to the current value (first operand or last result), not to a half-typed second operand.
 - **Chaining:** pressing an operator after `a ∘ b` computes it first and uses the result as the next first operand, like a pocket calculator. There is no operator precedence.
 - **Error messages:** the UI shows friendly text for known codes and falls back to the backend `message` for the rest.
+- **Backspace** stops at `0`: deleting the last digit shows `0`, never the previous operand (`8 + 5 ⌫` shows `8 +` / `0`, and `=` then gives `8`).
+- **Loading feedback:** while a request runs, the display keeps the operand being computed and input is disabled; the keys only dim if the request takes longer than 300 ms, so fast responses don't make the keypad blink.
 
 ## Future work
 
