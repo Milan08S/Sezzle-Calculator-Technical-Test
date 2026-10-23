@@ -2,7 +2,9 @@
 
 A full-stack calculator: a Go REST API that performs the arithmetic and a React + TypeScript frontend that consumes it.
 
-> **Screenshot:** _placeholder. Save a capture as `docs/screenshot.png` and replace this line with `![Calculator](docs/screenshot.png)`._
+> **Screenshot:**
+
+![Calculator](docs/Calculator.png)
 
 - **Backend:** Go 1.27, standard library only (`net/http` routing patterns, `encoding/json`, `log/slog`).
 - **Frontend:** Vite + React 19 + TypeScript (strict), plain CSS modules, no UI or state libraries.

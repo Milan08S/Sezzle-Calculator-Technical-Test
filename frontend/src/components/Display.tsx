@@ -38,7 +38,10 @@ function describe(state: State): { expression: string; value: string } {
     case 'inputtingSecond':
       return { expression: `${formatNumber(state.first)} ${SYMBOLS[state.operator]}`, value: state.input }
     case 'loading':
-      return { expression: expression(state.request.operation, state.request.operands), value: '…' }
+      return {
+        expression: expression(state.request.operation, state.request.operands),
+        value: formatNumber(state.request.operands[state.request.operands.length - 1]),
+      }
     case 'result':
       return { expression: '', value: formatNumber(state.value) }
     case 'error':

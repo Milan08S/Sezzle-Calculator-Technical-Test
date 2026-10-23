@@ -68,9 +68,9 @@ describe('backspace', () => {
   it.each<[string, State, State]>([
     ['removes the last character', first('123'), first('12')],
     ['removes the decimal point', first('1.'), first('1')],
-    ['returns to idle when the first operand empties', first('5'), initialState],
-    ['returns to idle when only a minus would remain', first('-5'), initialState],
-    ['returns to operatorPending when the second operand empties', second('3'), pending],
+    ['leaves 0 when the first operand empties', first('5'), first('0')],
+    ['leaves 0 when only a minus would remain', first('-5'), first('0')],
+    ['leaves 0 in the second operand instead of showing the first', second('3'), second('0')],
     ['does nothing on a result', result, result],
     ['does nothing while an operator is pending', pending, pending],
   ])('%s', (_, from, want) => {
